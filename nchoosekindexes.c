@@ -2,6 +2,25 @@
   These functions are for generating indexes which represent all ways of choosing k elements from an array of n elements.
   For example, for all ways to choose 3 elements from an array of 6 elements, use the indexes from print_all_indexes(6, 3).
   1 <= numberOfindexes, indexmax < 2^32
+  WARNING!! Caller must free indexes if exiting before all combinations are returned.
+  Author: Simon Goater.
+  E.g.
+3 2 1 0 
+4 2 1 0 
+4 3 1 0 
+4 3 2 0 
+4 3 2 1 
+5 2 1 0 
+5 3 1 0 
+5 3 2 0 
+5 3 2 1 
+5 4 1 0 
+5 4 2 0 
+5 4 2 1 
+5 4 3 0 
+5 4 3 1 
+5 4 3 2 
+There are 15 combinations for n=6 k=4.
 */
 uint32_t* initindexes(uint32_t numberOfindexes) {
   if (numberOfindexes == 0) return NULL;
@@ -57,12 +76,14 @@ void print_indexes(uint32_t numberOfindexes, uint32_t*indexes) {
 }
 
 void print_all_indexes(uint32_t n, uint32_t k) {
-  uint32_t*indexes = initindexes(k);
   uint64_t ixcount = 0;
-  while (indexes != NULL) {
-    print_indexes(k, indexes);
-    ixcount++;
-    indexes = get_next_indexes(k, n-1, indexes);
+  if ((k > 0) && (k <= n)) {
+    uint32_t*indexes = initindexes(k);
+    while (indexes != NULL) {
+      print_indexes(k, indexes);
+      ixcount++;
+      indexes = get_next_indexes(k, n-1, indexes);
+    }
   }
   printf("There are %lu combinations for n=%u k=%u.\n", ixcount, n, k);
 }
