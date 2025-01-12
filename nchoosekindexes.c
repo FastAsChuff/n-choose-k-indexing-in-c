@@ -22,6 +22,8 @@
 5 4 3 2 
 There are 15 combinations for n=6 k=4.
 */
+#ifndef NCHOOSEKINDEXES
+#define NCHOOSEKINDEXES
 uint32_t* initindexes(uint32_t numberOfindexes) {
   if (numberOfindexes == 0) return NULL;
   uint32_t* output = malloc(numberOfindexes*sizeof(uint32_t));  
@@ -55,7 +57,9 @@ uint32_t* get_next_indexes(uint32_t numberOfindexes, uint32_t indexmax, uint32_t
         }
         return indexes;
       }
+      #ifndef NCHOOSEKNOAUTOFREEINDEXES
       free(indexes);
+      #endif
       return NULL;
     }
   }
@@ -79,7 +83,7 @@ void print_all_indexes(uint32_t n, uint32_t k) {
   uint64_t ixcount = 0;
   if ((k > 0) && (k <= n)) {
     uint32_t*indexes = initindexes(k);
-    while (indexes != NULL) {
+    while (indexes) {
       print_indexes(k, indexes);
       ixcount++;
       indexes = get_next_indexes(k, n-1, indexes);
@@ -87,6 +91,6 @@ void print_all_indexes(uint32_t n, uint32_t k) {
   }
   printf("There are %lu combinations for n=%u k=%u.\n", ixcount, n, k);
 }
-
+#endif
 /*================================================================================================================================*/
 
