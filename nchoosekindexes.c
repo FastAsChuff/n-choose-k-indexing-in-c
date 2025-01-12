@@ -89,7 +89,8 @@ void print_all_indexes(uint32_t n, uint32_t k) {
       indexes = get_next_indexes(k, n-1, indexes);
     }
   }
-  printf("There are %lu combinations for n=%u k=%u.\n", ixcount, n, k);
+  if (k == 0) ixcount = 1;
+  printf("There are %lu ways to choose k=%u items from n=%u.\n", ixcount, k, n);
 }
 #endif
 /*================================================================================================================================*/
